@@ -74,15 +74,12 @@ class Calificaciones():
 
                 # Ahora tomamos en cuenta que la nota mínima de los exámenes es de 4 y que la nota final debe de ser superior o igual a 5
                 if float(parcial1) >= 4.0 and float(parcial2) >= 4.0 and float(practicas) >= 4.0 and float(lista[i]["NotaFinal"]) >= 5.0:
-                    aprobados.append(lista[i]["Apellidos"])
-                    aprobados.append(lista[i]["Nombre"])
+                    aprobados.append(lista[i]["Apellidos"] + ", " + lista[i]["Nombre"])
 
                 else:
-                    suspensos.append(lista[i]["Apellidos"])
-                    suspensos.append(lista[i]["Nombre"])
+                    suspensos.append(lista[i]["Apellidos"] + ", " + lista[i]["Nombre"])
 
             else:
-                suspensos.append(lista[i]["Apellidos"])
-                suspensos.append(lista[i]["Nombre"])
+                suspensos.append(lista[i]["Apellidos"] + ", " + lista[i]["Nombre"])
             
         return suspensos, aprobados
