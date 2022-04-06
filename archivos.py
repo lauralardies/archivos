@@ -4,7 +4,7 @@ class Calificaciones():
     
     def leer_fichero(self, fichero):
 
-        with open(fichero, "r") as archivo:
+        with open(fichero, "r", encoding="utf-8") as archivo:
             next(archivo, None) # Esta función nos permite saltarnos la primera fila, donde aparece el encabezado
             lista_dict = [] # Creamos una lista vacía donde guardar nuestros diccionarios
             for linea in archivo: # Ahora vamos a anaizar linea por linea
