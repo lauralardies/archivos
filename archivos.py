@@ -1,8 +1,9 @@
-from asyncio.windows_events import NULL
 from operator import itemgetter
 
 class Calificaciones():
+    
     def leer_fichero(self, fichero):
+
         with open(fichero, "r") as archivo:
             next(archivo, None) # Esta función nos permite saltarnos la primera fila, donde aparece el encabezado
             lista_dict = [] # Creamos una lista vacía donde guardar nuestros diccionarios
@@ -26,6 +27,7 @@ class Calificaciones():
         return sorted(lista_dict, key=itemgetter("Apellidos")) # Nos permite ordenar el diccionario alfabéticamente por apellidos
 
     def nota_final(self, lista):
+
         for i in range(0, len(lista)):
 
             # Para operar en Python, los float tienen puntos no comas, en las siguientes líneas reemplazamos las comas por los puntos
@@ -49,7 +51,45 @@ class Calificaciones():
 
         return lista # Devolvemos la nueva lista de diccionarios que ahora contiene una nueva celda, la de la nota final
 
+    def suspensos_aprobados(self, lista):
+        suspensos = []
+        aprobados = []
+        for i in range(0, len(lista)):
+            if (lista[i]["Asistencia"]) >= "75%":
+
+                # Para poder pasar a float en la siguiente comparación, las comas tienen que pasar a ser números
+                parcial1 = (lista[i]["Parcial1"]).replace(",", ".")
+                parcial2 = (lista[i]["Parcial2"]).replace(",", ".")            
+                practicas = (lista[i]["Prácticas"]).replace(",", ".")
+
+                # Otra vez, tenemos que convertir aquellas casillas vacías en 0
+                if any(chr.isdigit() for chr in parcial1) == False:
+                    parcial1 = 0.0
+                
+                if any(chr.isdigit() for chr in parcial2) == False:
+                    parcial2 = 0.0
+
+                if any(chr.isdigit() for chr in practicas) == False:
+                    practicas = 0.0
+
+                # Ahora tomamos en cuenta que la nota mínima de los exámenes es de 4 y que la nota final debe de ser superior o igual a 5
+                if float(parcial1) >= 4.0 and float(parcial2) >= 4.0 and float(practicas) >= 4.0 and float(lista[i]["NotaFinal"]) >= 5.0:
+                    aprobados.append(lista[i]["Apellidos"])
+                    aprobados.append(lista[i]["Nombre"])
+
+                else:
+                    suspensos.append(lista[i]["Apellidos"])
+                    suspensos.append(lista[i]["Nombre"])
+
+            else:
+                suspensos.append(lista[i]["Apellidos"])
+                suspensos.append(lista[i]["Nombre"])
+            
+        return suspensos, aprobados
 
 test = Calificaciones()
 lista = test.leer_fichero("calificaciones.csv")
-test.nota_final(test.leer_fichero("calificaciones.csv"))
+nota_final = test.nota_final(lista)
+suspensos, aprobados = test.suspensos_aprobados(nota_final)
+print(suspensos)
+print(aprobados)
