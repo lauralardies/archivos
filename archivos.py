@@ -27,10 +27,14 @@ class Calificaciones():
 
     def nota_final(self, lista):
         for i in range(0, len(lista)):
+
+            # Para operar en Python, los float tienen puntos no comas, en las siguientes líneas reemplazamos las comas por los puntos
             parcial1 = (lista[i]["Parcial1"]).replace(",", ".")
             parcial2 = (lista[i]["Parcial2"]).replace(",", ".")            
             practicas = (lista[i]["Prácticas"]).replace(",", ".")
 
+            # Ahora, para aquellas notas que estén vacías (es decir, en la casilla no haya nada) las tenemos que sustituir por 0
+            # Para ello verificamos si hay algún número en la casilla. Si no hay ninguno, sustituimos ese vacío por 0.
             if any(chr.isdigit() for chr in parcial1) == False:
                 parcial1 = 0.0
             
@@ -40,9 +44,10 @@ class Calificaciones():
             if any(chr.isdigit() for chr in practicas) == False:
                 practicas = 0.0
 
+            # Por último creamos una nueve entrada en el diccionario, llamado NotaFinal, en el cual está calculada la nota final
             lista[i]["NotaFinal"] = float(parcial1) * 0.3 + float(parcial2) * 0.3 + float(practicas) * 0.4
 
-        return lista
+        return lista # Devolvemos la nueva lista de diccionarios que ahora contiene una nueva celda, la de la nota final
 
 
 test = Calificaciones()
